@@ -21,8 +21,12 @@ class ArticleController extends Controller
     /**
      * @Route(path="/show/{slug}", name="article_show")
      */
-    public function showAction()
+    public function showAction($slug)
     {
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class);
+        $article->findOneBy(array('slug' => $slug));
+        return $this->render('Article/show.html.twig',array('Article' => Article::class ));
     }
 
     /**
@@ -35,10 +39,23 @@ class ArticleController extends Controller
 
     /**
      * @Route(path="/update/{slug}", name="article_update")
+     * @Security("is_grander('ROLE_AUTHOR')")
      */
-    public function updateAction()
+    public function updateAction(Request $request, NewArticleHandler $handle)
     {
         // Seul les auteurs doivent avoir access.
+        $article = new Article();
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(ArticleType::class,$article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && ($form->isValid()))
+        {
+            $handle->handle($article);
+            $em->persist($article);
+            $em->flush();
+        }
+        return $this->render('Article/update.html.twig',array('form' => $form->createView()));
+
         // Seul l'auteur de l'article peut le modifier
     }
 }

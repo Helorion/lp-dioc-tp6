@@ -2,6 +2,9 @@
 
 {% block body %}
     <ul>
-        <li><a href="#">Titre de l'article - 5</a></li>
+        {% for tag in articles %}
+            <li><a href={{ path: "article_show" ,{slug:article.slug} }}> - {{ article.tittle}} </a> </li>
+        {% endfor %}
+
     </ul>
 {% endblock %}

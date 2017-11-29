@@ -40,7 +40,7 @@ class User implements UserInterface, \Serializable
      */
     private $isAuthor = false;
     /**
-     * @ORM\ManyToOne(targetEntity="Article" inversedBy="author")
+     * @ORM\ManyToOne(targetEntity="Article",inversedBy="author")
      */
     private $articles;
 

@@ -36,7 +36,8 @@ class ArticleStat
     private $action;
 
     /**
-     * @ORM\OnetoOne(targetEntity="Article")
+     * ORM\ManyToOne(targetEntity="Article")
+     * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      */
     private $article;
     /**
@@ -49,7 +50,8 @@ class ArticleStat
     private $ip;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
